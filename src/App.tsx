@@ -1,26 +1,20 @@
-import { useState } from "react";
-import MovieList from "./components/MovieList";
-import SearchBar from "./components/SearchBar";
-import { SAMPLE_MOVIES } from "./data/sampleMovies";
-import type { Movie } from "./types";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
-  const [query, setQuery] = useState("");
-
-  const movies = SAMPLE_MOVIES as Movie[];
-
-  const filteredMovies = movies.filter((movie) =>
-    movie.title.toLowerCase().includes(query.toLowerCase())
-  );
-
   return (
-    <div>
-      <h1>Movie App</h1>
+    <BrowserRouter>
+      <Header />
 
-      <SearchBar query={query} onChange={setQuery} />
-
-      <MovieList movies={filteredMovies} />
-    </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
