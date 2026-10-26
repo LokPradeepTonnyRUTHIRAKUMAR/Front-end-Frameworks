@@ -12,8 +12,12 @@ function HomePage() {
   });
 
   const hasQuery = query.trim().length > 0;
+
+  // Do not show movies while loading or after an error.
+  const visibleMovies = loading || error ? [] : movies;
+
   const showResultsHeading =
-    !loading && !error && (movies.length > 0 || !hasQuery);
+    !loading && !error && (visibleMovies.length > 0 || !hasQuery);
 
   return (
     <main className="home-page">
@@ -57,11 +61,11 @@ function HomePage() {
           <p className="error-message">{error}</p>
         )}
 
-        {!loading && !error && movies.length > 0 && (
-          <MovieList movies={movies} />
+        {!loading && !error && visibleMovies.length > 0 && (
+          <MovieList movies={visibleMovies} />
         )}
 
-        {!loading && !error && hasQuery && movies.length === 0 && (
+        {!loading && !error && hasQuery && visibleMovies.length === 0 && (
           <p className="status-message">
             No movies found. Try another search.
           </p>
