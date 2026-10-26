@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import MovieList from "../components/MovieList";
 import SearchBar from "../components/SearchBar";
@@ -10,17 +11,62 @@ function HomePage() {
     search: query,
   });
 
+  const hasQuery = query.trim().length > 0;
+  const showResultsHeading =
+    !loading && !error && (movies.length > 0 || !hasQuery);
+
   return (
-    <main>
-      <h1>Movie App</h1>
+    <main className="home-page">
+      <section className="hero-section">
+        <p className="eyebrow">YOUR NEXT MOVIE NIGHT STARTS HERE</p>
 
-      <SearchBar query={query} onChange={setQuery} />
+        <h1>
+          Discover your next
+          <span className="hero-highlight"> favourite movie.</span>
+        </h1>
 
-      {loading && <p>Loading movies...</p>}
+        <p className="hero-description">
+          Explore movies, discover hidden gems, and save your favourites
+          in one place.
+        </p>
 
-      {error && <p>{error}</p>}
+        <div className="search-wrapper">
+          <SearchBar query={query} onChange={setQuery} />
+        </div>
+      </section>
 
-      {!loading && !error && <MovieList movies={movies} />}
+      <section className="movies-section">
+        {showResultsHeading && (
+          <div className="section-heading">
+            <div>
+              <h2>{hasQuery ? "Search Results" : "Explore Movies"}</h2>
+              <p>
+                {hasQuery
+                  ? `Movies matching "${query}"`
+                  : "Find something great to watch today."}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {loading && (
+          <p className="status-message">Loading movies...</p>
+        )}
+
+        {error && (
+          <p className="error-message">{error}</p>
+        )}
+
+        {!loading && !error && movies.length > 0 && (
+          <MovieList movies={movies} />
+        )}
+
+        {!loading && !error && hasQuery && movies.length === 0 && (
+          <p className="status-message">
+            No movies found. Try another search.
+          </p>
+        )}
+      </section>
     </main>
   );
 }

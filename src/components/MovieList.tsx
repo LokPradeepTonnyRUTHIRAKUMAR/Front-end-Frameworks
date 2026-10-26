@@ -1,5 +1,6 @@
-import MovieCard from "./MovieCard";
+
 import type { Movie } from "../types";
+import MovieCard from "./MovieCard";
 
 type MovieListProps = {
   movies: Movie[];
@@ -11,7 +12,7 @@ function MovieList({ movies }: MovieListProps) {
   }
 
   return (
-    <div>
+    <div className="movie-grid">
       {movies.map((movie) => (
         <MovieCard key={movie.id} movie={movie} />
       ))}

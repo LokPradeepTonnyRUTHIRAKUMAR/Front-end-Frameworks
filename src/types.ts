@@ -1,3 +1,4 @@
+
 export type Movie = {
   id: number;
   title: string;
@@ -11,3 +12,5 @@ export type Movie = {
   genre_ids: number[];
   adult: boolean;
 };
+
+export type Theme = "light" | "dark";
